@@ -1,6 +1,9 @@
 import React, { useState } from "react";
-import { Button, Dialog, DialogTitle, DialogContent, CircularProgress, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
-import { CheckCircle, Error, Warning, Close } from "@mui/icons-material";
+import { 
+  Button, Dialog, DialogTitle, DialogContent, CircularProgress, 
+  Typography, List, ListItem, ListItemIcon, ListItemText 
+} from "@mui/material";
+import { CheckCircle, Error, Warning } from "@mui/icons-material";
 
 export default function HealthCheck() {
   const [open, setOpen] = useState(false);
@@ -14,12 +17,21 @@ export default function HealthCheck() {
     try {
       const response = await fetch("http://localhost:5000/run_health_check");
       const data = await response.json();
-      setReport(data);
+      
+      // Introduce a 3-second delay before updating the state
+      setTimeout(() => {
+        setReport(data);
+        setLoading(false);
+      }, 3000);
+      
     } catch (error) {
       console.error("Error fetching health check:", error);
-      setReport({ error: "Failed to load health check report." });
-    } finally {
-      setLoading(false);
+      
+      // Introduce the same delay for error handling
+      setTimeout(() => {
+        setReport({ error: "Failed to load health check report." });
+        setLoading(false);
+      }, 3000);
     }
   };
 
@@ -50,13 +62,15 @@ export default function HealthCheck() {
           {loading ? (
             <div style={{ textAlign: "center", padding: "20px" }}>
               <CircularProgress />
-              <Typography variant="body1" style={{ marginTop: "10px" }}>Processing...</Typography>
+              <Typography variant="body1" style={{ marginTop: "10px" }}>
+                Processing...
+              </Typography>
             </div>
           ) : report ? (
             <>
               <Typography variant="h6" style={{ marginTop: "10px" }}>🔍 Service Status</Typography>
               <List>
-                {Object.entries(report.services).map(([service, status]) => (
+                {Object.entries(report.services || {}).map(([service, status]) => (
                   <ListItem key={service}>
                     <ListItemIcon>{getIcon(status)}</ListItemIcon>
                     <ListItemText primary={`${service}: ${status}`} />
@@ -66,7 +80,7 @@ export default function HealthCheck() {
 
               <Typography variant="h6" style={{ marginTop: "10px" }}>💾 Resource Utilization</Typography>
               <List>
-                {Object.entries(report.resource_utilization).map(([res, status]) => (
+                {Object.entries(report.resource_utilization || {}).map(([res, status]) => (
                   <ListItem key={res}>
                     <ListItemIcon>{getIcon(status)}</ListItemIcon>
                     <ListItemText primary={`${res}: ${status}`} />
@@ -76,7 +90,7 @@ export default function HealthCheck() {
 
               <Typography variant="h6" style={{ marginTop: "10px" }}>⚠️ Anomalies</Typography>
               <List>
-                {Object.entries(report.anomalies).map(([service, status]) => (
+                {Object.entries(report.anomalies || {}).map(([service, status]) => (
                   <ListItem key={service}>
                     <ListItemIcon>{getIcon(status)}</ListItemIcon>
                     <ListItemText primary={`${service}: ${status}`} />
@@ -86,7 +100,7 @@ export default function HealthCheck() {
 
               <Typography variant="h6" style={{ marginTop: "10px" }}>🔍 Root Cause Analysis</Typography>
               <List>
-                {report.rca_findings.map((incident, index) => (
+                {(report.rca_findings || []).map((incident, index) => (
                   <ListItem key={index}>
                     <ListItemText
                       primary={`Incident: ${incident.incident} | Service: ${incident.service}`}

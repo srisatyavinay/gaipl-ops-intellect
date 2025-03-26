@@ -17,17 +17,30 @@
 Our project is a GEN AI-based platform designed to empower support engineers with advanced agentic capabilities. It streamlines root cause analysis, generates health check reports, and retrieves incidents related to the issue being resolved. The platform features an AI chatbot that enables users to dive deeper into the current problem, fetch related incidents for detailed analysis, and summarize root cause analyses with a single click. Leveraging contextual recommendations, the AI chatbot ensures precise and relevant responses, enhancing the efficiency of issue resolution.
 
 ## 🎥 Demo
-🔗 [Live Demo](#) (if applicable)  
-📹 [Video Demo](#) (if applicable)  
+
+📹 [Video Demo](#) (if applicable)
+
 🖼️ Screenshots:
 
-![Screenshot 1](link-to-image)
+**Login Page**:
 ![Login Page](images/login.png)
+
+**Search Incidents Page**:
 ![Search Incidents Page](images/search.png)
+
+**Integrated Platform Console**:
 ![Integrated Platform Console](images/incident.png)
+
+**Health Check**:
 ![Health Check](images/healthCheck.png)
+
+**Summarize RCA**:
 ![Summarize RCA](images/summarize_rca.png)
+
+**AI Chatbot**:
 ![AI Chatbot](images/chatbot.png)
+
+**Pull related Incidents**:
 ![Pull related incidents](images/related.png)
 
 ## 💡 Inspiration

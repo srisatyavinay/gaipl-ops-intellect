@@ -33,6 +33,13 @@ import AICopilot from "./AICopilot";
 import mockIncidents from "./incidents.json"; // Mock incident data
 import SummarizeRCA from "./SummarizeRCA";
 import HealthCheck from "./HealthCheck";
+import { styled } from "@mui/material/styles";
+
+const HoverTableRow = styled(TableRow)({
+  "&:hover": {
+    backgroundColor: "#f5f5f5",
+  },
+});
 
 export default function MainWorkspace() {
   const navigate = useNavigate();
@@ -50,17 +57,21 @@ export default function MainWorkspace() {
     const foundIncident = mockIncidents.find((inc) => inc.id === incidentId);
     setIncident(foundIncident);
   }, [incidentId]);
+  
 
   const fetchRelatedIncidents = async () => {
     setLoading(true);
     setOpenModal(true);
 
     try {
-      const response = await fetch("http://localhost:5000/get_related_incidents", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(incident.title),
-      });
+      const response = await fetch(
+        "http://localhost:5000/get_related_incidents",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(incident.title),
+        }
+      );
 
       const data = await response.json();
       setRelatedIncidents(data.related_incidents);
@@ -84,11 +95,29 @@ export default function MainWorkspace() {
 
   if (!incident) {
     return (
-      <Typography variant="h6" style={{ textAlign: "center", marginTop: "50px" }}>
+      <Typography
+        variant="h6"
+        style={{ textAlign: "center", marginTop: "50px" }}
+      >
         Incident not found.
       </Typography>
     );
   }
+
+  const parseIncidentBody = (body) => {
+    const lines = body.split("\n").filter((line) => line.trim() !== "");
+    return lines.map((line, index) => {
+      const [key, ...valueParts] = line.split(":");
+      return (
+        <TableRow key={index}>
+          <TableCell>
+            <strong>{key.trim()}</strong>
+          </TableCell>
+          <TableCell>{valueParts.join(":").trim()}</TableCell>
+        </TableRow>
+      );
+    });
+  };
 
   return (
     <div style={{ display: "flex", height: "100vh", flexDirection: "column" }}>
@@ -112,7 +141,11 @@ export default function MainWorkspace() {
       </AppBar>
 
       {/* Sidebar Drawer */}
-      <Drawer anchor="left" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <Drawer
+        anchor="left"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+      >
         <List style={{ width: "250px" }}>
           <ListItem button onClick={() => navigate("/search")}>
             <ListItemText primary="Search Incidents" />
@@ -137,28 +170,36 @@ export default function MainWorkspace() {
           <CardContent>
             <Grid container spacing={2}>
               <Grid item xs={4}>
-                <Typography variant="body1"><strong>ID:</strong></Typography>
+                <Typography variant="body1">
+                  <strong>ID:</strong>
+                </Typography>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="body1">{incident.id}</Typography>
               </Grid>
 
               <Grid item xs={4}>
-                <Typography variant="body1"><strong>Status:</strong></Typography>
+                <Typography variant="body1">
+                  <strong>Status:</strong>
+                </Typography>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="body1">{incident.status}</Typography>
               </Grid>
 
               <Grid item xs={4}>
-                <Typography variant="body1"><strong>Priority:</strong></Typography>
+                <Typography variant="body1">
+                  <strong>Priority:</strong>
+                </Typography>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="body1">{incident.priority}</Typography>
               </Grid>
 
               <Grid item xs={4}>
-                <Typography variant="body1"><strong>Description:</strong></Typography>
+                <Typography variant="body1">
+                  <strong>Description:</strong>
+                </Typography>
               </Grid>
               <Grid item xs={8}>
                 <Typography variant="body1">{incident.description}</Typography>
@@ -172,12 +213,31 @@ export default function MainWorkspace() {
           <CardHeader title="Root Cause Analysis" />
           <CardContent>
             {/* Editable Fields for Root Cause, Resolution, and Prevention */}
-            <TextField label="Root Cause" variant="outlined" fullWidth margin="normal" />
-            <TextField label="Resolution" variant="outlined" fullWidth margin="normal" />
-            <TextField label="Prevention" variant="outlined" fullWidth margin="normal" />
+            <TextField
+              label="Root Cause"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Resolution"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
+            <TextField
+              label="Prevention"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+            />
             <Button
               variant="contained"
-              style={{ backgroundColor: "#FFD700", color: "#000", marginTop: "10px" }}
+              style={{
+                backgroundColor: "#FFD700",
+                color: "#000",
+                marginTop: "10px",
+              }}
               onClick={handleSubmit} // Trigger submit
               disabled={loadingSubmit} // Disable button while loading
             >
@@ -201,11 +261,11 @@ export default function MainWorkspace() {
             borderRadius: "50%",
             padding: "20px",
             boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            zIndex: 1000
+            zIndex: 1000,
           }}
           onClick={() => setOpenCopilot(true)}
         >
-          <ChatIcon style={{ fontSize: "2.5rem" }}/>
+          <ChatIcon style={{ fontSize: "2.5rem" }} />
         </IconButton>
 
         {/* AI Copilot Popup (Dialog positioned near the bottom right) */}
@@ -232,8 +292,9 @@ export default function MainWorkspace() {
         </Dialog>
 
         {/* AI Copilot & Automation Panels with margin */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "20px" }}>
-
+        <div
+          style={{ display: "grid", gridTemplateColumns: "1fr", gap: "20px" }}
+        >
           {/* Automations Panel */}
           <div style={{ marginBottom: "20px" }}>
             <Card>
@@ -259,10 +320,18 @@ export default function MainWorkspace() {
         </div>
 
         {/* Related Incidents Modal */}
-        <Dialog open={openModal} onClose={() => setOpenModal(false)} maxWidth="md" fullWidth>
+        <Dialog
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          maxWidth="md"
+          fullWidth
+        >
           <DialogTitle>
             Related Incidents
-            <IconButton style={{ position: "absolute", right: 10, top: 10 }} onClick={() => setOpenModal(false)}>
+            <IconButton
+              style={{ position: "absolute", right: 10, top: 10 }}
+              onClick={() => setOpenModal(false)}
+            >
               <Close />
             </IconButton>
           </DialogTitle>
@@ -277,16 +346,26 @@ export default function MainWorkspace() {
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell><strong>ID</strong></TableCell>
-                      <TableCell><strong>Title</strong></TableCell>
-                      <TableCell><strong>Action</strong></TableCell>
+                      <TableCell>
+                        <strong>ID</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Title</strong>
+                      </TableCell>
+                      <TableCell>
+                        <strong>Action</strong>
+                      </TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {relatedIncidents.map((inc) => (
-                      <TableRow key={inc.id}>
+                      <HoverTableRow key={inc.id}>
                         <TableCell>{inc.id}</TableCell>
-                        <TableCell>{inc.body}</TableCell>
+                        <TableCell>
+                          <Table>
+                            <TableBody>{parseIncidentBody(inc.body)}</TableBody>
+                          </Table>
+                        </TableCell>
                         <TableCell>
                           <Button
                             variant="contained"
@@ -296,7 +375,7 @@ export default function MainWorkspace() {
                             View Incident
                           </Button>
                         </TableCell>
-                      </TableRow>
+                      </HoverTableRow>
                     ))}
                   </TableBody>
                 </Table>
@@ -308,5 +387,3 @@ export default function MainWorkspace() {
     </div>
   );
 }
-
-
