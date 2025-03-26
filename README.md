@@ -75,7 +75,6 @@ These features work as a team to make solving problems faster and easier. The AI
 
 - Creating the dataset for the required problem statement.
 - Understanding the problem statement from the lens of a support engineer.
-- Integrating frontend and backend. 
 - Ensuring the AI chatbot provides accurate and contextually relevant responses.
 - Implementing the vector similarity search for related incidents efficiently.
 - Mocking health check data in the absence of real-time system access.
@@ -84,7 +83,6 @@ These features work as a team to make solving problems faster and easier. The AI
 - Testing and validating the platform's functionality with limited resources.
 - Designing a user-friendly interface that aligns with the needs of support engineers.
 - Managing dependencies and ensuring compatibility across different environments.
-- Managing daily scrum activities alongside the hackathon.
 
 ## 🏃 How to Run
 1. Clone the repository  
