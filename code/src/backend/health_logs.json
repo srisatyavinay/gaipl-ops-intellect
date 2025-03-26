@@ -1,0 +1,39 @@
+{
+    "services": {
+      "AuthService": {"status": "up", "latency": 120},
+      "DatabaseService": {"status": "degraded", "latency": 400},
+      "PaymentGateway": {"status": "down", "latency": null},
+      "NotificationService": {"status": "up", "latency": 200},
+      "CacheService": {"status": "up", "latency": 90},
+      "UserService": {"status": "up", "latency": 150},
+      "ReportingService": {"status": "degraded", "latency": 320},
+      "APIService": {"status": "up", "latency": 180},
+      "LoggingService": {"status": "up", "latency": 110},
+      "SearchService": {"status": "down", "latency": null}
+    },
+    "resources": {
+      "CPU_Usage": {"usage": 85, "threshold": 80},
+      "Memory_Usage": {"usage": 75, "threshold": 90},
+      "Disk_Usage": {"usage": 95, "threshold": 85},
+      "Network_Bandwidth": {"usage": 50, "threshold": 75},
+      "Database_Connections": {"usage": 120, "threshold": 100},
+      "API_Requests_Per_Minute": {"usage": 6000, "threshold": 5000},
+      "Cache_Hit_Rate": {"usage": 45, "threshold": 70}
+    },
+    "incidents": [
+      {"id": "INC001", "service": "DatabaseService", "description": "High query execution time"},
+      {"id": "INC002", "service": "PaymentGateway", "description": "Timeouts reported by clients"},
+      {"id": "INC003", "service": "ReportingService", "description": "Slow report generation"},
+      {"id": "INC004", "service": "APIService", "description": "Intermittent API failures"},
+      {"id": "INC005", "service": "SearchService", "description": "Search queries failing"}
+    ],
+    "logs": [
+      {"timestamp": "2025-03-18T10:05:00Z", "component": "DatabaseService", "message": "Slow query detected"},
+      {"timestamp": "2025-03-18T10:10:00Z", "component": "PaymentGateway", "message": "API rate limit exceeded"},
+      {"timestamp": "2025-03-18T10:15:00Z", "component": "CacheService", "message": "Cache hit ratio low"},
+      {"timestamp": "2025-03-18T10:20:00Z", "component": "ReportingService", "message": "Report generation took 10 minutes"},
+      {"timestamp": "2025-03-18T10:25:00Z", "component": "APIService", "message": "503 Service Unavailable"},
+      {"timestamp": "2025-03-18T10:30:00Z", "component": "SearchService", "message": "Elasticsearch index not responding"}
+    ]
+  }
+  

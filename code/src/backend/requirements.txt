@@ -1,0 +1,12 @@
+langchain
+langchain_community
+langchain_core
+beautifulsoup4
+python-dotenv
+chromadb
+flask
+flask_session
+html2text
+langchain-google-genai
+cryptography
+flask-cors
