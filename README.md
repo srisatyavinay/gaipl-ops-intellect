@@ -45,6 +45,9 @@ Our project is a GEN AI-based platform designed to empower support engineers wit
 **Pull related Incidents**:
 ![Pull related incidents](images/related.png)
 
+**MCP Protocol**:
+![MCP Protocol](images/mcp.png)
+
 ## 💡 Inspiration
 The idea for this project came from seeing how platform engineers struggle with using many dashboards to handle incidents and requests. This scattered way of working slows things down, causes mistakes, and makes the job harder. We wanted to create a simple tool using generative AI to bring all the data together, give helpful insights, and handle repetitive tasks. This way, engineers can focus on solving problems faster and better.
 
