@@ -18,6 +18,8 @@ Our project is a GEN AI-based platform designed to empower support engineers wit
 
 ## 🎥 Demo
 
+🖼️ [Slides](artifacts/demo/Hackathon_OpsIntellect.pptx)
+
 📹 [Video Demo](#) (if applicable)
 
 🖼️ Screenshots:
