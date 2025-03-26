@@ -1,0 +1,528 @@
+[
+  {
+    "id": "INC-2000",
+    "title": "Email Server Downtime Due to Misconfigured Mail Relay",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported they were unable to send or receive emails starting at 9:15 AM EST. The issue affected both internal and external emails, causing disruptions in communication across multiple teams. Attempts to access the email web portal resulted in timeouts, and Outlook clients showed connection errors. The IT help desk received over 100 reports from various departments. Initial diagnostics showed that the email server was running but not processing messages correctly.",
+    "root_cause": "A recent security update modified the mail relay configuration, preventing the email server from relaying messages correctly. The update introduced stricter authentication requirements that were not properly configured, leading to rejected email transmissions. Additionally, the mail queue quickly filled up, exacerbating delays.",
+    "resolution": "The IT team restored the previous configuration from a backup and applied the correct authentication settings. The mail queue was manually cleared, and the server was restarted to resume normal operations. Affected users were advised to restart their email clients to re-establish connections.",
+    "prevention": "To prevent future occurrences, IT has implemented automated configuration validation for mail relay settings before applying updates. Additionally, alert mechanisms have been set up to detect unusual mail queue buildups and notify administrators immediately. Regular configuration reviews are now scheduled to ensure compliance with security policies."
+  },
+  {
+    "id": "INC-2001",
+    "title": "VPN Authentication Failure Due to Expired Certificates",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Users working remotely reported being unable to connect to the corporate VPN from 8:00 AM EST onwards. The issue prevented employees from accessing internal systems, causing delays in business operations. Attempts to authenticate resulted in repeated failure messages, and IT was flooded with support tickets.",
+    "root_cause": "The root cause was an expired SSL certificate used for VPN authentication. The certificate had reached its expiration date, and the automatic renewal process failed due to a misconfigured cron job. As a result, the VPN server rejected all authentication requests, blocking remote users from connecting.",
+    "resolution": "The IT team manually renewed the expired certificate and restarted the VPN authentication service. Affected employees were instructed to restart their VPN clients and reconnect. Post-resolution monitoring confirmed that all remote users could successfully authenticate and access internal resources.",
+    "prevention": "To prevent recurrence, IT has implemented a proactive monitoring system that alerts administrators 30 days before certificate expiration. Additionally, the automatic renewal process has been reviewed and tested to ensure it executes correctly. Documentation on certificate management has been updated for better oversight."
+  },
+  {
+    "id": "INC-2002",
+    "title": "ERP System Performance Degradation Due to Unoptimized Database Queries",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported significant slowdowns while accessing the ERP system, affecting order processing and financial transactions. The issue was first observed at 10:30 AM EST, with response times increasing to over 30 seconds per transaction. Several departments faced workflow disruptions, requiring manual interventions.",
+    "root_cause": "Database logs indicated that recent changes to a financial reporting module introduced inefficient SQL queries. The new queries lacked proper indexing, leading to excessive load on the database server. As more users attempted to access reports, the database struggled to handle concurrent requests, resulting in severe performance degradation.",
+    "resolution": "The IT database team optimized the problematic SQL queries by adding appropriate indexes and restructuring the queries to improve efficiency. A temporary load balancing mechanism was also implemented to distribute processing across multiple database nodes. Performance tests confirmed significant improvements.",
+    "prevention": "To prevent similar incidents, IT has introduced mandatory performance testing for all database modifications before deployment. Additionally, database monitoring tools have been enhanced to detect long-running queries and alert administrators before they impact performance."
+  },
+  {
+    "id": "INC-2003",
+    "title": "Company Website Downtime Due to CDN Misconfiguration",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The company website became inaccessible for external users at approximately 3:45 PM EST. Internal employees reported intermittent access issues. Attempts to load the website resulted in 503 Service Unavailable errors. The incident affected customer-facing services, leading to multiple complaints.",
+    "root_cause": "A recent update to the Content Delivery Network (CDN) configuration inadvertently disabled cache purging. As a result, stale or corrupted data was served, leading to inconsistent and failed page loads. Additionally, a missing failover mechanism caused traffic to drop instead of routing to backup servers.",
+    "resolution": "IT engineers rolled back the CDN configuration changes and manually purged the corrupted cache. The failover mechanism was corrected, and traffic was redirected appropriately. Website availability was fully restored, and customers were informed of the resolution.",
+    "prevention": "Moving forward, all CDN changes will undergo staged testing before deployment. Automated monitoring for cache health and failover functionality has been implemented to detect potential disruptions before impacting users. IT staff have also been trained to respond quickly to CDN-related incidents."
+  },
+
+  {
+    "id": "INC-2004",
+    "title": "File Server Unavailability Due to Disk Space Exhaustion",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported being unable to access shared files on the corporate file server starting at 11:00 AM EST. Attempts to open shared folders resulted in error messages indicating that the resource was unavailable. The issue disrupted multiple teams relying on shared resources for daily operations.",
+    "root_cause": "The root cause was disk space exhaustion on the file server. A scheduled backup process failed to delete old snapshots, causing the storage volume to fill up completely. This prevented the server from processing new file requests and caused the shared folders to become inaccessible.",
+    "resolution": "The IT team manually deleted outdated backup snapshots to free up disk space. The file server was restarted to restore access to shared folders. Affected employees were notified to retry accessing their files, and normal operations resumed shortly after.",
+    "prevention": "To prevent recurrence, IT has implemented automated monitoring for disk space usage with alerts triggered at 80% capacity. The backup process has been updated to include automatic cleanup of old snapshots. Additionally, periodic audits of storage usage are now scheduled to ensure sufficient free space."
+  },
+  {
+    "id": "INC-2005",
+    "title": "Application Login Failure Due to LDAP Server Outage",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Users reported being unable to log in to multiple internal applications starting at 9:30 AM EST. The issue affected all systems relying on LDAP for authentication, including HR, finance, and project management tools. Attempts to log in resulted in authentication errors, causing widespread disruptions.",
+    "root_cause": "The root cause was an unexpected outage of the primary LDAP server due to a hardware failure. The failover mechanism to the secondary LDAP server was misconfigured, preventing applications from switching to the backup server automatically.",
+    "resolution": "The IT team manually redirected authentication requests to the secondary LDAP server and restored access to affected applications. The faulty hardware on the primary server was replaced, and the server was brought back online. Post-resolution testing confirmed that all systems were functioning normally.",
+    "prevention": "To prevent future incidents, IT has corrected the failover configuration to ensure seamless switching between primary and secondary LDAP servers. Regular failover testing has been scheduled to verify redundancy. Additionally, hardware monitoring has been enhanced to detect potential failures proactively."
+  },
+  {
+    "id": "INC-2006",
+    "title": "Slow Internet Speeds Due to Network Bandwidth Saturation",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported slow internet speeds across the office starting at 2:00 PM EST. The issue affected browsing, video conferencing, and access to cloud-based applications. Network diagnostics showed high latency and packet loss, impacting productivity for multiple teams.",
+    "root_cause": "The root cause was excessive bandwidth usage caused by unauthorized streaming and large file downloads during work hours. Network logs revealed that several devices were consuming a disproportionate amount of bandwidth, leading to saturation of the available network capacity.",
+    "resolution": "The IT team identified and restricted the devices responsible for excessive bandwidth usage. Network traffic was reprioritized to ensure critical business applications received sufficient bandwidth. Employees were informed about acceptable use policies, and normal internet speeds were restored.",
+    "prevention": "To prevent similar issues, IT has implemented Quality of Service (QoS) rules to prioritize business-critical traffic. Bandwidth monitoring tools have been deployed to detect and address unusual usage patterns in real time. Employees have been reminded of the company’s internet usage policies."
+  },
+  {
+    "id": "INC-2007",
+    "title": "Data Loss in CRM System Due to Faulty API Integration",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Sales teams reported missing customer data in the CRM system starting at 10:00 AM EST. The issue affected recent updates to customer profiles, leading to incomplete records and delays in processing sales orders. Attempts to retrieve the missing data were unsuccessful.",
+    "root_cause": "The root cause was a faulty API integration with a third-party data enrichment service. A recent update to the API introduced a bug that caused certain data fields to be overwritten with null values during synchronization. This resulted in partial data loss for affected records.",
+    "resolution": "The IT team disabled the faulty API integration and restored the missing data from the most recent backup. The API bug was reported to the third-party vendor, and a patch was applied to resolve the issue. Sales teams were notified, and data integrity was verified.",
+    "prevention": "To prevent recurrence, IT has implemented stricter testing protocols for API integrations, including data validation checks. Automated backups have been scheduled more frequently to minimize potential data loss. Vendor updates will now be reviewed and tested in a staging environment before deployment."
+  },
+
+  {
+    "id": "INC-2008",
+    "title": "Database Connection Failure Due to Exceeded Connection Limits",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported being unable to access the inventory management system starting at 1:15 PM EST. Attempts to log in or perform operations resulted in error messages indicating a database connection failure. The issue caused delays in order processing and inventory updates.",
+    "root_cause": "The root cause was an exceeded connection limit on the database server. A recent application update introduced inefficient connection pooling, leading to an excessive number of open connections. As the limit was reached, new connection requests were rejected.",
+    "resolution": "The IT team increased the database connection limit temporarily to restore access. The application code was reviewed and optimized to implement proper connection pooling. After deploying the fix, the connection limit was reverted to its original value, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented monitoring for database connection usage with alerts for abnormal patterns. Developers have been trained on best practices for connection pooling. Future application updates will undergo performance testing to identify potential issues before deployment."
+  },
+  {
+    "id": "INC-2009",
+    "title": "Unauthorized Access Attempt Detected on HR System",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The IT security team detected multiple unauthorized login attempts on the HR system at 3:00 AM EST. The attempts originated from an external IP address and targeted administrative accounts. Although no accounts were compromised, the incident raised concerns about potential security vulnerabilities.",
+    "root_cause": "The root cause was a brute-force attack targeting weak passwords on administrative accounts. The HR system lacked sufficient protections, such as account lockout policies and IP-based restrictions, making it vulnerable to repeated login attempts.",
+    "resolution": "The IT security team blocked the offending IP address and implemented account lockout policies after a defined number of failed login attempts. Administrative passwords were reset to meet stronger complexity requirements. Affected users were notified, and the system was monitored for further suspicious activity.",
+    "prevention": "To prevent future incidents, IT has enabled multi-factor authentication (MFA) for all administrative accounts. Intrusion detection systems have been configured to alert administrators of unusual login patterns. Regular security audits are now conducted to identify and address potential vulnerabilities."
+  },
+  {
+    "id": "INC-2010",
+    "title": "Printer Outage Due to Network Configuration Error",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported being unable to print documents from network printers starting at 9:45 AM EST. Attempts to send print jobs resulted in errors, and printers displayed offline status. The issue disrupted daily operations, particularly in the finance and legal departments.",
+    "root_cause": "The root cause was a misconfigured network setting on the print server. A recent update to the server's firewall rules inadvertently blocked communication between the server and the printers, causing them to appear offline.",
+    "resolution": "The IT team identified and corrected the misconfigured firewall rules, restoring communication between the print server and the printers. Affected employees were instructed to resend their print jobs, and normal printing operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented a change management process requiring peer review for all network configuration updates. Automated testing of firewall rules has been introduced to detect potential misconfigurations before deployment. Documentation on printer network settings has been updated for better oversight."
+  },
+  {
+    "id": "INC-2011",
+    "title": "Cloud Storage Sync Failure Due to API Rate Limiting",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported that files uploaded to the cloud storage system were not syncing across devices starting at 2:30 PM EST. The issue caused delays in collaborative projects, as team members were unable to access the latest versions of shared files.",
+    "root_cause": "The root cause was API rate limiting imposed by the cloud storage provider. A recent increase in file upload activity exceeded the provider's API request limits, causing synchronization requests to be throttled or rejected.",
+    "resolution": "The IT team contacted the cloud storage provider to temporarily increase the API rate limits. File synchronization was restored, and employees were able to access the latest versions of their files. Usage patterns were analyzed to identify and address the root cause of the increased activity.",
+    "prevention": "To prevent recurrence, IT has implemented a load-balancing mechanism to distribute API requests more evenly. Usage monitoring tools have been deployed to detect and address unusual activity patterns. The cloud storage provider's API limits are now reviewed periodically to ensure they meet business needs."
+  },
+
+  {
+    "id": "INC-2012",
+    "title": "Mobile App Crash Due to Memory Leak",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported that the company’s mobile app was crashing frequently during usage starting at 10:00 AM EST. The issue primarily affected users performing data-intensive tasks, such as generating reports or uploading large files. The crashes disrupted workflows and led to multiple complaints.",
+    "root_cause": "The root cause was a memory leak introduced in the latest app update. A poorly managed object in the codebase caused the app to consume excessive memory over time, eventually leading to crashes on devices with limited resources.",
+    "resolution": "The development team identified and fixed the memory leak in the code. A patched version of the app was released to app stores, and users were instructed to update to the latest version. Post-release monitoring confirmed that the crashes were resolved.",
+    "prevention": "To prevent similar issues, the development team has implemented stricter code review processes and automated memory profiling as part of the CI/CD pipeline. Regular stress testing is now conducted to identify potential memory issues before releasing updates."
+  },
+  {
+    "id": "INC-2013",
+    "title": "Access Denied to Shared Drives Due to Group Policy Error",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported being unable to access shared drives starting at 8:30 AM EST. Attempts to open shared folders resulted in 'Access Denied' errors, even for users with proper permissions. The issue disrupted access to critical documents and delayed project timelines.",
+    "root_cause": "The root cause was an error in a recently updated Group Policy Object (GPO). The update inadvertently removed certain user groups from the access control list for shared drives, revoking their permissions.",
+    "resolution": "The IT team rolled back the GPO changes and restored the original access control settings. Affected employees were asked to log out and log back in to refresh their permissions. Access to shared drives was fully restored.",
+    "prevention": "To prevent recurrence, IT has implemented a review process for all GPO changes, including testing in a staging environment before deployment. Automated scripts have been introduced to validate access control settings after GPO updates."
+  },
+  {
+    "id": "INC-2014",
+    "title": "Service Outage in Customer Support Portal Due to SSL Misconfiguration",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Customers reported being unable to access the customer support portal starting at 7:00 AM EST. Attempts to load the portal resulted in SSL certificate errors, preventing users from submitting support tickets or accessing self-service resources.",
+    "root_cause": "The root cause was an SSL certificate misconfiguration during a recent server migration. The new server was configured with an outdated certificate that had expired, causing browsers to block access to the portal.",
+    "resolution": "The IT team installed a valid SSL certificate on the server and verified its configuration. Customers were informed to clear their browser caches and retry accessing the portal. Normal operations resumed shortly after.",
+    "prevention": "To prevent similar incidents, IT has implemented automated SSL certificate monitoring with alerts for upcoming expirations. A checklist for server migrations now includes SSL configuration validation to ensure proper setup."
+  },
+  {
+    "id": "INC-2015",
+    "title": "Delayed Email Delivery Due to Spam Filter Misclassification",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported delays in receiving emails starting at 11:45 AM EST. Some emails were delayed by several hours, while others were not delivered at all. The issue affected both internal and external communications, causing disruptions in workflows.",
+    "root_cause": "The root cause was an overly aggressive spam filter configuration on the email server. Legitimate emails were being flagged as spam and quarantined, leading to significant delays in delivery.",
+    "resolution": "The IT team adjusted the spam filter rules to reduce false positives and released the quarantined emails. Affected employees were notified, and email delivery times returned to normal. The spam filter configuration was tested to ensure proper functionality.",
+    "prevention": "To prevent recurrence, IT has implemented regular reviews of spam filter rules to balance security and usability. A whitelist mechanism has been introduced for trusted senders to bypass the spam filter. Employees have been trained to report false positives for further tuning."
+  },
+  {
+    "id": "INC-2016",
+    "title": "Backup Failure Due to Insufficient Storage Space",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "The nightly backup process failed to complete successfully, as reported by the monitoring system at 2:00 AM EST. The failure left critical systems without a recent backup, raising concerns about data recovery in case of an incident. IT staff discovered the issue during routine checks.",
+    "root_cause": "The root cause was insufficient storage space on the backup server. A recent increase in the volume of data being backed up exceeded the available storage capacity, causing the backup process to terminate prematurely.",
+    "resolution": "The IT team freed up space on the backup server by archiving older backups to an external storage device. The backup process was reinitiated and completed successfully. Additional storage capacity was provisioned to accommodate future growth.",
+    "prevention": "To prevent recurrence, IT has implemented automated monitoring for backup storage usage with alerts for low capacity. Backup retention policies have been revised to ensure efficient use of storage. Regular audits of backup storage are now conducted to plan for capacity upgrades proactively."
+  },
+  {
+    "id": "INC-2017",
+    "title": "Firewall Blocking External API Calls Due to Misconfigured Rules",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Developers reported that external API calls from the company’s applications were failing starting at 10:15 AM EST. The issue disrupted integrations with third-party services, including payment gateways and analytics platforms, causing delays in processing transactions and generating reports.",
+    "root_cause": "The root cause was a misconfigured firewall rule that blocked outbound traffic to specific IP ranges used by the third-party APIs. The rule was introduced during a recent security update but was not properly tested before deployment.",
+    "resolution": "The IT team identified and corrected the misconfigured firewall rule, restoring outbound traffic to the affected IP ranges. Developers were asked to retry their API calls, and normal functionality was confirmed. Affected services resumed operations without further issues.",
+    "prevention": "To prevent similar incidents, IT has implemented a change management process requiring thorough testing of firewall rules in a staging environment. Automated monitoring has been set up to detect and alert on unusual traffic patterns caused by misconfigurations."
+  },
+  {
+    "id": "INC-2018",
+    "title": "Power Outage in Data Center Causing Service Downtime",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "A power outage in the primary data center caused multiple services, including the company website and internal applications, to go offline at 4:30 PM EST. The outage disrupted business operations and affected customer-facing services, leading to complaints and revenue loss.",
+    "root_cause": "The root cause was a failure in the uninterruptible power supply (UPS) system during a scheduled maintenance activity. The backup generators failed to activate due to a misconfigured automatic transfer switch, leaving the data center without power.",
+    "resolution": "The IT team manually activated the backup generators to restore power to the data center. Affected systems were brought back online in a phased manner to ensure stability. The UPS system and transfer switch were repaired and tested to confirm proper functionality.",
+    "prevention": "To prevent recurrence, IT has scheduled regular maintenance and testing of the UPS system and backup generators. A secondary failover mechanism has been implemented to ensure power continuity. Staff training on handling power-related incidents has been enhanced."
+  },
+  {
+    "id": "INC-2019",
+    "title": "Software Deployment Failure Due to Missing Dependencies",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "A scheduled deployment of a new software version failed at 9:00 PM EST, leaving the application in an unusable state. Users attempting to access the application encountered errors, and the IT team had to roll back the deployment to restore functionality.",
+    "root_cause": "The root cause was missing dependencies in the deployment package. A recent update to the application introduced new library requirements that were not included in the deployment script, causing the application to fail during startup.",
+    "resolution": "The IT team identified the missing dependencies and updated the deployment script to include them. The deployment was reattempted successfully, and the application was brought back online. Users were notified of the resolution, and normal operations resumed.",
+    "prevention": "To prevent similar issues, IT has implemented automated dependency checks as part of the deployment pipeline. A checklist for deployment readiness has been introduced to ensure all requirements are met before initiating deployments. Developers have been trained on proper dependency management practices."
+  },
+
+  {
+    "id": "INC-2020",
+    "title": "DNS Resolution Failure Causing Website Inaccessibility",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Customers reported being unable to access the company website starting at 6:00 AM EST. Attempts to load the website resulted in DNS resolution errors. The issue affected all users globally, leading to a significant drop in website traffic and customer complaints.",
+    "root_cause": "The root cause was an expired DNS record in the domain registrar's configuration. The automatic renewal process for the DNS record failed due to an outdated payment method, causing the record to expire and DNS resolution to fail.",
+    "resolution": "The IT team updated the payment method and renewed the expired DNS record. DNS propagation was expedited to restore access to the website as quickly as possible. Customers were informed of the resolution, and normal traffic levels resumed.",
+    "prevention": "To prevent recurrence, IT has implemented automated alerts for upcoming DNS record expirations. The payment method for domain services has been updated and verified. A secondary DNS provider has been configured to ensure redundancy in case of future issues."
+  },
+  {
+    "id": "INC-2021",
+    "title": "High CPU Usage on Application Server Due to Infinite Loop",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported slow response times and intermittent crashes while using the project management application starting at 11:30 AM EST. Server monitoring tools showed abnormally high CPU usage, which caused delays in processing user requests.",
+    "root_cause": "The root cause was a coding error introduced in the latest application update. A specific user action triggered an infinite loop in the application logic, causing the server to consume excessive CPU resources and degrade performance.",
+    "resolution": "The development team identified and fixed the coding error, releasing a hotfix to resolve the issue. The application server was restarted to clear the high CPU usage, and users were notified to refresh their sessions. Performance returned to normal levels.",
+    "prevention": "To prevent similar incidents, IT has implemented stricter code review processes and automated testing for edge cases. Performance monitoring tools have been enhanced to detect and alert on unusual CPU usage patterns. Developers have been trained on best practices for error handling."
+  },
+  {
+    "id": "INC-2022",
+    "title": "Email Phishing Attack Targeting Employees",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Several employees reported receiving suspicious emails that appeared to be from the IT department starting at 9:00 AM EST. The emails contained links to a fake login page designed to steal credentials. Some employees clicked the links, raising concerns about potential data breaches.",
+    "root_cause": "The root cause was a targeted phishing attack exploiting weak email filtering rules. The attackers used spoofed email addresses and convincing content to bypass the spam filter and deceive employees into providing their login credentials.",
+    "resolution": "The IT security team blocked the phishing domain and reset the passwords of affected employees. A company-wide email was sent to warn employees about the phishing attempt and provide guidance on identifying suspicious emails. No data breaches were detected during the investigation.",
+    "prevention": "To prevent future phishing attacks, IT has enhanced email filtering rules and implemented domain-based message authentication (DMARC). Employees have been enrolled in mandatory cybersecurity training to recognize phishing attempts. Regular phishing simulations are now conducted to improve awareness."
+  },
+  {
+    "id": "INC-2023",
+    "title": "Application Downtime Due to Database Deadlock",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported being unable to perform transactions in the e-commerce application starting at 3:45 PM EST. Attempts to place orders or update account details resulted in timeouts. The issue caused significant disruptions to sales and customer satisfaction.",
+    "root_cause": "The root cause was a database deadlock caused by conflicting queries. A recent update to the order processing module introduced a query that locked critical tables for extended periods, preventing other queries from executing and causing the application to hang.",
+    "resolution": "The IT database team identified and optimized the problematic query to reduce locking times. The application was restarted to clear the deadlock, and users were able to resume transactions. Affected customers were notified, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented query optimization guidelines and mandatory testing for database changes. Deadlock monitoring tools have been deployed to detect and resolve conflicts proactively. Developers have been trained on best practices for database query design."
+  },
+  {
+    "id": "INC-2024",
+    "title": "Service Outage Due to Overloaded Load Balancer",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Users reported being unable to access the company’s online services starting at 2:00 PM EST. The issue caused intermittent outages and slow response times across multiple applications. Monitoring tools indicated that the load balancer was overwhelmed, leading to dropped requests.",
+    "root_cause": "The root cause was an unexpected surge in traffic due to a marketing campaign. The load balancer was not configured to handle the increased traffic volume, causing it to reach its capacity limit and fail to distribute requests effectively.",
+    "resolution": "The IT team scaled up the load balancer by adding additional nodes to handle the increased traffic. Traffic was redistributed, and services were restored. The marketing team was informed to coordinate future campaigns with IT for capacity planning.",
+    "prevention": "To prevent recurrence, IT has implemented auto-scaling for the load balancer to handle traffic spikes dynamically. Traffic forecasting tools have been deployed to predict surges based on marketing activities. Load testing is now conducted regularly to ensure infrastructure readiness."
+  },
+  {
+    "id": "INC-2025",
+    "title": "Data Corruption in Analytics Reports Due to ETL Failure",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "The analytics team reported discrepancies in generated reports starting at 8:00 AM EST. Key metrics, such as sales and customer engagement, showed incorrect values, raising concerns about data integrity. The issue disrupted decision-making processes across departments.",
+    "root_cause": "The root cause was a failure in the ETL (Extract, Transform, Load) process. A recent update to the ETL pipeline introduced a bug that caused incorrect transformations during data processing, leading to corrupted data in the analytics database.",
+    "resolution": "The IT team identified and fixed the bug in the ETL pipeline. The corrupted data was removed, and the ETL process was re-executed to regenerate accurate reports. Affected teams were notified, and data integrity was verified.",
+    "prevention": "To prevent similar issues, IT has implemented automated validation checks in the ETL pipeline to detect anomalies during data processing. All ETL updates are now tested in a staging environment before deployment. Documentation on ETL processes has been updated for better oversight."
+  },
+  {
+    "id": "INC-2026",
+    "title": "Mobile Device Management (MDM) Policy Misconfiguration",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported being unable to access corporate resources on their mobile devices starting at 9:30 AM EST. Devices displayed errors indicating that they were out of compliance with company policies, even though no changes had been made by users.",
+    "root_cause": "The root cause was a misconfiguration in the Mobile Device Management (MDM) policy. A recent update to the policy inadvertently flagged all devices as non-compliant due to an incorrect security setting, blocking access to corporate resources.",
+    "resolution": "The IT team corrected the misconfigured MDM policy and pushed an updated configuration to all devices. Employees were instructed to restart their devices to apply the changes. Access to corporate resources was restored, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented a review process for all MDM policy updates, including testing on a subset of devices before full deployment. Automated compliance checks have been enhanced to provide more detailed error reporting for faster troubleshooting."
+  },
+  {
+    "id": "INC-2027",
+    "title": "Delayed Software Updates Due to Repository Access Issues",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Developers reported being unable to pull updates from the company’s code repository starting at 10:15 AM EST. The issue caused delays in ongoing development projects, as teams were unable to access the latest code changes or push their updates.",
+    "root_cause": "The root cause was an expired access token used by the Continuous Integration/Continuous Deployment (CI/CD) system to authenticate with the code repository. The token expiration was not detected in advance, causing repository access to fail.",
+    "resolution": "The IT team generated a new access token and updated the CI/CD system configuration. Developers were instructed to retry their operations, and repository access was restored. Affected teams were notified, and project timelines were adjusted accordingly.",
+    "prevention": "To prevent recurrence, IT has implemented automated alerts for expiring access tokens. A token rotation policy has been established to ensure tokens are renewed well before expiration. Documentation on CI/CD system configurations has been updated for better oversight."
+  },
+  {
+    "id": "INC-2028",
+    "title": "Authentication Failure Due to SSO Certificate Expiry",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Employees reported being unable to log in to multiple internal applications via Single Sign-On (SSO) starting at 7:00 AM EST. Attempts to authenticate resulted in error messages, disrupting access to critical systems such as HR, finance, and project management tools.",
+    "root_cause": "The root cause was an expired SSO certificate used for authentication. The certificate renewal process was overlooked, causing authentication requests to fail across all integrated applications.",
+    "resolution": "The IT team renewed the expired SSO certificate and updated the configuration on all affected applications. Employees were instructed to clear their browser caches and retry logging in. Access to applications was restored, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented automated alerts for expiring certificates. A certificate management system has been deployed to track and renew certificates proactively. Documentation on SSO configurations has been updated to include renewal procedures."
+  },
+  {
+    "id": "INC-2029",
+    "title": "Service Degradation Due to DDoS Attack",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The company’s website experienced slow response times and intermittent outages starting at 4:00 PM EST. Customers reported difficulty accessing the website, and monitoring tools showed a significant spike in incoming traffic from suspicious IP addresses.",
+    "root_cause": "The root cause was a Distributed Denial of Service (DDoS) attack targeting the company’s web servers. The attack overwhelmed the servers with a high volume of requests, consuming resources and degrading performance.",
+    "resolution": "The IT security team mitigated the attack by enabling DDoS protection on the web application firewall (WAF). Malicious traffic was blocked, and legitimate traffic was prioritized. Website performance returned to normal, and customers were informed of the resolution.",
+    "prevention": "To prevent future attacks, IT has implemented advanced DDoS protection measures, including rate limiting and traffic filtering. A third-party DDoS mitigation service has been engaged for additional protection. Regular security drills are now conducted to test the organization’s response to DDoS incidents."
+  },
+  {
+    "id": "INC-2030",
+    "title": "File Upload Failure Due to Incorrect Permissions",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported being unable to upload files to the document management system starting at 10:30 AM EST. Attempts to upload files resulted in permission errors, disrupting workflows and delaying project deliverables.",
+    "root_cause": "The root cause was an incorrect permissions update during a recent system configuration change. The update inadvertently restricted write access to the upload directory, preventing users from uploading files.",
+    "resolution": "The IT team corrected the permissions on the upload directory and verified that users could upload files successfully. Affected employees were notified, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented a change management process requiring peer review for all configuration updates. Automated scripts have been introduced to validate directory permissions after changes. Documentation on system configurations has been updated for better oversight."
+  },
+  {
+    "id": "INC-2031",
+    "title": "Delayed Notifications Due to Messaging Queue Overload",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Users reported delays in receiving notifications from the task management system starting at 3:00 PM EST. Notifications for task assignments and updates were delayed by several hours, causing confusion and impacting team coordination.",
+    "root_cause": "The root cause was an overload in the messaging queue used for processing notifications. A sudden increase in task activity caused the queue to exceed its processing capacity, leading to delays in delivering notifications.",
+    "resolution": "The IT team increased the processing capacity of the messaging queue and cleared the backlog of pending notifications. Notifications were delivered successfully, and users were informed of the resolution.",
+    "prevention": "To prevent similar issues, IT has implemented auto-scaling for the messaging queue to handle spikes in activity. Monitoring tools have been enhanced to detect and alert on queue overloads. Developers have been trained on optimizing notification workflows to reduce queue load."
+  },
+  {
+    "id": "INC-2032",
+    "title": "API Gateway Timeout Due to Misconfigured Routing",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Developers reported that API requests were timing out starting at 1:00 PM EST. The issue affected multiple microservices, causing disruptions in application functionality and delays in processing user requests.",
+    "root_cause": "The root cause was a misconfigured routing rule in the API gateway. A recent update to the gateway configuration introduced an incorrect route, causing requests to be directed to non-existent endpoints, resulting in timeouts.",
+    "resolution": "The IT team corrected the routing configuration in the API gateway and verified that requests were being routed to the correct endpoints. Developers were notified to retry their requests, and normal functionality was restored.",
+    "prevention": "To prevent recurrence, IT has implemented automated validation for API gateway configurations before deployment. A staging environment has been set up to test routing changes thoroughly. Documentation on API gateway management has been updated for better oversight."
+  },
+  {
+    "id": "INC-2033",
+    "title": "System Crash Due to Insufficient Memory Allocation",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The accounting system crashed repeatedly starting at 11:45 AM EST, preventing users from accessing financial data and processing transactions. The issue caused significant delays in daily operations and raised concerns about system stability.",
+    "root_cause": "The root cause was insufficient memory allocation for the application server. A recent increase in concurrent users exceeded the available memory, causing the server to crash under load.",
+    "resolution": "The IT team increased the memory allocation for the application server and restarted the system. Users were able to access the accounting system without further issues. Performance monitoring was conducted to ensure stability.",
+    "prevention": "To prevent similar incidents, IT has implemented dynamic resource allocation to handle varying workloads. Memory usage monitoring tools have been deployed to detect and alert on high usage. Capacity planning processes have been enhanced to account for user growth."
+  },
+  {
+    "id": "INC-2034",
+    "title": "Incorrect Data in CRM Due to Faulty Data Import",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Sales teams reported incorrect customer data in the CRM system starting at 9:00 AM EST. The issue affected recently imported records, leading to discrepancies in customer profiles and delays in processing sales orders.",
+    "root_cause": "The root cause was a faulty data import process. A misconfigured mapping file caused data fields to be imported into incorrect columns, resulting in corrupted customer records.",
+    "resolution": "The IT team corrected the mapping file and re-imported the affected data from the original source. The CRM system was validated to ensure data accuracy, and sales teams were notified of the resolution.",
+    "prevention": "To prevent recurrence, IT has implemented automated validation checks for data imports to detect mapping errors. A staging environment has been set up to test data imports before applying them to production. Documentation on data import procedures has been updated."
+  },
+  {
+    "id": "INC-2035",
+    "title": "Delayed Batch Processing Due to Scheduler Failure",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported delays in batch processing jobs starting at 2:30 AM EST. The issue affected nightly data processing tasks, including report generation and database updates, causing delays in delivering critical information to stakeholders.",
+    "root_cause": "The root cause was a failure in the job scheduler. A recent update to the scheduler configuration introduced a bug that caused certain jobs to be skipped or delayed, disrupting the batch processing workflow.",
+    "resolution": "The IT team identified and fixed the bug in the scheduler configuration. The delayed jobs were manually triggered to complete the batch processing tasks. Affected stakeholders were notified, and normal operations resumed.",
+    "prevention": "To prevent similar issues, IT has implemented automated testing for scheduler updates to detect potential bugs. Monitoring tools have been enhanced to alert on missed or delayed jobs. A rollback mechanism has been introduced to quickly revert faulty configurations."
+  },
+
+  {
+    "id": "INC-2036",
+    "title": "Web Application Downtime Due to SSL Certificate Mismatch",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Customers reported being unable to access the web application starting at 8:00 AM EST. Attempts to load the application resulted in SSL certificate errors, preventing users from securely accessing the service. The issue caused disruptions in customer transactions and complaints.",
+    "root_cause": "The root cause was an SSL certificate mismatch during a recent server migration. The new server was configured with an incorrect certificate that did not match the domain name, causing browsers to block access.",
+    "resolution": "The IT team installed the correct SSL certificate on the server and verified its configuration. Customers were informed to clear their browser caches and retry accessing the application. Normal operations resumed shortly after.",
+    "prevention": "To prevent recurrence, IT has implemented automated SSL certificate validation during server migrations. A checklist for server configurations now includes SSL verification steps. Monitoring tools have been deployed to detect certificate mismatches proactively."
+  },
+  {
+    "id": "INC-2037",
+    "title": "High Latency in Internal Network Due to Faulty Switch",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported slow network speeds and high latency while accessing internal systems starting at 10:15 AM EST. The issue affected multiple departments, causing delays in accessing shared resources and cloud-based applications.",
+    "root_cause": "The root cause was a faulty network switch in the data center. The switch experienced intermittent hardware failures, causing packet loss and increased latency across the internal network.",
+    "resolution": "The IT team replaced the faulty switch with a new one and reconfigured the network to restore normal operations. Network performance was monitored to ensure stability, and employees were informed of the resolution.",
+    "prevention": "To prevent similar incidents, IT has implemented regular hardware health checks for network equipment. A spare hardware inventory has been established to enable quick replacements. Network monitoring tools have been enhanced to detect hardware issues proactively."
+  },
+  {
+    "id": "INC-2038",
+    "title": "Email Bouncebacks Due to Blacklisted IP Address",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported that emails sent to external recipients were being rejected starting at 9:30 AM EST. The issue caused delays in communication with clients and partners, as emails were returned with bounceback messages indicating the sender's IP address was blacklisted.",
+    "root_cause": "The root cause was the company’s email server IP address being added to a public blacklist. A compromised account was used to send spam emails, triggering the blacklist entry and causing legitimate emails to be rejected.",
+    "resolution": "The IT team identified and secured the compromised account by resetting its credentials. The email server was delisted from the blacklist after submitting a request to the blacklist provider. Employees were notified to retry sending their emails, and normal email delivery resumed.",
+    "prevention": "To prevent recurrence, IT has implemented outbound email monitoring to detect and block spam activity. Multi-factor authentication (MFA) has been enabled for all email accounts to enhance security. Regular audits of email server activity are now conducted to identify potential issues."
+  },
+  {
+    "id": "INC-2039",
+    "title": "Application Deployment Failure Due to Version Conflict",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "A scheduled deployment of a new application version failed at 7:00 PM EST, leaving the application in a partially updated state. Users reported errors and inconsistent behavior while accessing the application, disrupting workflows and raising concerns about data integrity.",
+    "root_cause": "The root cause was a version conflict between the application and its dependencies. The deployment script did not account for compatibility issues, causing the application to fail during startup.",
+    "resolution": "The IT team rolled back the deployment to the previous stable version and resolved the compatibility issues in the deployment script. The updated version was redeployed successfully, and users were notified of the resolution.",
+    "prevention": "To prevent similar issues, IT has implemented dependency compatibility checks as part of the deployment pipeline. A staging environment has been set up to test deployments thoroughly before production. Developers have been trained on managing version dependencies effectively."
+  },
+
+  {
+    "id": "INC-2040",
+    "title": "Access Denied to Cloud Storage Due to Expired API Key",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported being unable to access files stored in the cloud storage system starting at 8:30 AM EST. Attempts to retrieve or upload files resulted in authentication errors, disrupting workflows across multiple teams.",
+    "root_cause": "The root cause was an expired API key used by the internal file management system to authenticate with the cloud storage provider. The expiration was not detected in advance, causing access requests to fail.",
+    "resolution": "The IT team generated a new API key and updated the file management system configuration. Employees were instructed to retry their operations, and access to cloud storage was restored. Affected teams were notified of the resolution.",
+    "prevention": "To prevent recurrence, IT has implemented automated alerts for expiring API keys. A key rotation policy has been established to ensure keys are renewed well before expiration. Documentation on API key management has been updated for better oversight."
+  },
+  {
+    "id": "INC-2041",
+    "title": "Delayed Job Processing Due to Database Lock Contention",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported delays in processing scheduled jobs starting at 3:00 PM EST. The issue affected tasks such as report generation and data synchronization, causing delays in delivering critical information to stakeholders.",
+    "root_cause": "The root cause was database lock contention caused by overlapping queries. A recent update to the job scheduling system introduced queries that locked critical tables for extended periods, delaying other jobs in the queue.",
+    "resolution": "The IT team optimized the problematic queries to reduce locking times and rescheduled the delayed jobs. Normal job processing resumed, and stakeholders were informed of the resolution.",
+    "prevention": "To prevent similar issues, IT has implemented query optimization guidelines and mandatory testing for database changes. Monitoring tools have been enhanced to detect and alert on lock contention. Developers have been trained on best practices for database query design."
+  },
+  {
+    "id": "INC-2042",
+    "title": "Unauthorized Access Attempt Detected on Financial System",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The IT security team detected multiple unauthorized login attempts on the financial system starting at 2:00 AM EST. The attempts originated from external IP addresses and targeted administrative accounts, raising concerns about potential data breaches.",
+    "root_cause": "The root cause was a brute-force attack targeting weak passwords on administrative accounts. The financial system lacked sufficient protections, such as account lockout policies and IP-based restrictions, making it vulnerable to repeated login attempts.",
+    "resolution": "The IT security team blocked the offending IP addresses and implemented account lockout policies after a defined number of failed login attempts. Administrative passwords were reset to meet stronger complexity requirements. Affected users were notified, and the system was monitored for further suspicious activity.",
+    "prevention": "To prevent future incidents, IT has enabled multi-factor authentication (MFA) for all administrative accounts. Intrusion detection systems have been configured to alert administrators of unusual login patterns. Regular security audits are now conducted to identify and address potential vulnerabilities."
+  },
+  {
+    "id": "INC-2043",
+    "title": "Service Outage Due to Overloaded Message Broker",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported being unable to access real-time features in the collaboration platform starting at 11:00 AM EST. The issue caused delays in message delivery and disrupted team communication, impacting productivity across departments.",
+    "root_cause": "The root cause was an overloaded message broker. A sudden increase in user activity exceeded the broker's processing capacity, causing delays in message delivery and dropped connections.",
+    "resolution": "The IT team scaled up the message broker by adding additional nodes to handle the increased load. Traffic was redistributed, and real-time features were restored. Users were notified of the resolution, and normal operations resumed.",
+    "prevention": "To prevent recurrence, IT has implemented auto-scaling for the message broker to handle traffic spikes dynamically. Monitoring tools have been enhanced to detect and alert on broker overloads. Load testing is now conducted regularly to ensure infrastructure readiness."
+  },
+  {
+    "id": "INC-2044",
+    "title": "Website Downtime Due to Misconfigured DNS Records",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Customers reported being unable to access the company website starting at 6:30 AM EST. Attempts to load the website resulted in DNS resolution errors, preventing users from accessing services and causing a drop in traffic.",
+    "root_cause": "The root cause was a misconfigured DNS record during a recent update. The A record for the website was inadvertently pointed to an incorrect IP address, causing DNS resolution to fail.",
+    "resolution": "The IT team corrected the DNS record and expedited DNS propagation to restore access to the website. Customers were informed of the resolution, and normal traffic levels resumed.",
+    "prevention": "To prevent recurrence, IT has implemented a review process for all DNS changes, including testing in a staging environment before deployment. Automated monitoring tools have been deployed to detect and alert on DNS misconfigurations."
+  },
+  {
+    "id": "INC-2045",
+    "title": "Application Crash Due to Unhandled Exception",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Users reported that the inventory management application was crashing intermittently starting at 9:15 AM EST. The crashes disrupted order processing and inventory updates, causing delays in daily operations.",
+    "root_cause": "The root cause was an unhandled exception in the application code. A specific user action triggered a null pointer exception, causing the application to crash unexpectedly.",
+    "resolution": "The development team identified and fixed the bug in the application code. A patched version of the application was deployed, and users were notified to refresh their sessions. Post-deployment monitoring confirmed that the crashes were resolved.",
+    "prevention": "To prevent similar issues, IT has implemented stricter code review processes and automated testing for edge cases. Developers have been trained on best practices for error handling and exception management."
+  },
+  {
+    "id": "INC-2046",
+    "title": "Delayed Email Notifications Due to SMTP Server Overload",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported delays in receiving email notifications from the task management system starting at 2:00 PM EST. Notifications for task assignments and updates were delayed by several hours, causing confusion and impacting team coordination.",
+    "root_cause": "The root cause was an overloaded SMTP server. A sudden increase in notification emails exceeded the server's processing capacity, causing delays in email delivery.",
+    "resolution": "The IT team scaled up the SMTP server to handle the increased email volume and cleared the backlog of pending notifications. Employees were informed of the resolution, and email delivery times returned to normal.",
+    "prevention": "To prevent recurrence, IT has implemented auto-scaling for the SMTP server to handle spikes in email volume. Monitoring tools have been enhanced to detect and alert on server overloads. Notification workflows have been optimized to reduce email traffic."
+  },
+  {
+    "id": "INC-2047",
+    "title": "Unauthorized File Access Due to Misconfigured Permissions",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "The IT security team detected unauthorized access to sensitive files on the shared drive starting at 8:00 AM EST. The issue raised concerns about data security and compliance, as confidential information was accessed by unauthorized users.",
+    "root_cause": "The root cause was a misconfigured access control list (ACL) on the shared drive. A recent update to the ACL inadvertently granted read access to all employees, exposing sensitive files to unauthorized users.",
+    "resolution": "The IT team corrected the ACL configuration to restrict access to authorized users only. Affected files were reviewed for potential breaches, and employees were reminded of data access policies. No data leaks were detected during the investigation.",
+    "prevention": "To prevent recurrence, IT has implemented a review process for all ACL changes, including testing in a staging environment before deployment. Automated scripts have been introduced to validate access control settings after updates. Regular audits of shared drive permissions are now conducted."
+  },
+  {
+    "id": "INC-2048",
+    "title": "Service Outage Due to Expired Database License",
+    "status": "Resolved",
+    "priority": "Critical",
+    "description": "Users reported being unable to access the customer relationship management (CRM) system starting at 7:00 AM EST. Attempts to log in or perform operations resulted in error messages, disrupting sales and customer support activities.",
+    "root_cause": "The root cause was an expired database license. The license renewal process was overlooked, causing the database to stop accepting connections and rendering the CRM system inaccessible.",
+    "resolution": "The IT team renewed the database license and restarted the database server. Access to the CRM system was restored, and users were notified to retry their operations. Normal functionality resumed shortly after.",
+    "prevention": "To prevent recurrence, IT has implemented automated alerts for upcoming license expirations. A centralized license management system has been deployed to track and renew licenses proactively. Documentation on license renewal procedures has been updated."
+  },
+  {
+    "id": "INC-2049",
+    "title": "File Corruption in Backup Due to Interrupted Process",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "The IT team discovered that the nightly backup process resulted in corrupted files starting at 3:00 AM EST. The issue raised concerns about data recovery, as critical files were found to be incomplete or unreadable in the backup storage.",
+    "root_cause": "The root cause was an interrupted backup process caused by a network outage during the transfer of files to the backup server. The interruption left several files in a partially written state, resulting in corruption.",
+    "resolution": "The IT team reinitiated the backup process after resolving the network issue. The corrupted files were replaced with intact versions from the primary storage. Backup integrity was verified, and stakeholders were informed of the resolution.",
+    "prevention": "To prevent similar issues, IT has implemented a retry mechanism for interrupted backup processes. Network monitoring tools have been enhanced to detect and resolve outages proactively. Backup validation checks are now conducted after each process to ensure data integrity."
+  },
+  {
+    "id": "INC-2050",
+    "title": "Login Failure Due to Incorrect LDAP Configuration",
+    "status": "Resolved",
+    "priority": "High",
+    "description": "Employees reported being unable to log in to internal applications starting at 9:30 AM EST. The issue affected all systems relying on LDAP for authentication, causing widespread disruptions in daily operations.",
+    "root_cause": "The root cause was an incorrect LDAP configuration applied during a recent update. The configuration change inadvertently pointed authentication requests to a non-existent LDAP server, causing login attempts to fail.",
+    "resolution": "The IT team corrected the LDAP configuration to point to the correct server. Employees were instructed to retry logging in, and access to internal applications was restored. Normal operations resumed shortly after.",
+    "prevention": "To prevent recurrence, IT has implemented a review process for all LDAP configuration changes, including testing in a staging environment before deployment. Automated monitoring has been set up to detect and alert on LDAP connectivity issues."
+  },
+  {
+    "id": "INC-2051",
+    "title": "Delayed Data Sync Due to API Rate Limiting",
+    "status": "Resolved",
+    "priority": "Medium",
+    "description": "Employees reported delays in data synchronization between the sales and analytics systems starting at 2:00 PM EST. The issue caused discrepancies in sales reports, delaying decision-making processes across departments.",
+    "root_cause": "The root cause was API rate limiting imposed by the analytics system provider. A recent increase in data sync requests exceeded the provider's API request limits, causing synchronization delays.",
+    "resolution": "The IT team contacted the analytics system provider to temporarily increase the API rate limits. Data synchronization was restored, and sales reports were updated with accurate information. Affected teams were notified of the resolution.",
+    "prevention": "To prevent recurrence, IT has implemented a load-balancing mechanism to distribute API requests more evenly. Usage monitoring tools have been deployed to detect and address unusual activity patterns. API limits are now reviewed periodically to ensure they meet business needs."
+  }
+]

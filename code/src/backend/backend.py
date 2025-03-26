@@ -16,6 +16,7 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain.chains.combine_documents import create_stuff_documents_chain
 import os
 from cryptEncryptionKey import decrypt_string
+import chromadb
 
 persist_directory = "data/chroma"
 
@@ -39,70 +40,72 @@ vector_store = Chroma(
     persist_directory=persist_directory,
 )
 
-# def generate_chroma_vector_store(json_file_path, collection_name, persist_directory):
-#     # Load the JSON file
-#     try:
-#         with open(json_file_path, "r") as f:
-#             issues = json.load(f)
-#     except Exception as e:
-#         print(f"Error while loading the JSON file: {e}")
-#         exit()
+def generate_chroma_vector_store(json_file_path, collection_name, persist_directory):
+    # Load the JSON file
+    try:
+        with open(json_file_path, "r") as f:
+            issues = json.load(f)
+    except Exception as e:
+        print(f"Error while loading the JSON file: {e}")
+        exit()
 
-#     # Create documents from the JSON data
-#     if not isinstance(issues, list):
-#         raise ValueError("The JSON file must contain a list of issues.")
+    # Create documents from the JSON data
+    if not isinstance(issues, list):
+        raise ValueError("The JSON file must contain a list of issues.")
 
-#     documents = []
-#     for issue in issues:
-#         id = issue.get("id", "")
-#         title = issue.get("title", "")
-#         status = issue.get("status", "")
-#         priority = issue.get("priority", "")
-#         description = issue.get("description", "")
-#         root_cause = issue.get("root_cause", "")
-#         resolution = issue.get("resolution", "")
-#         prevention = issue.get("prevention", "")
-#         body = f"Title:{title}\nDescription: {description}\nRoot Cause: {root_cause}\nResolution: {resolution}\n"
+    documents = []
+    for issue in issues:
+        id = issue.get("id", "")
+        title = issue.get("title", "")
+        status = issue.get("status", "")
+        priority = issue.get("priority", "")
+        description = issue.get("description", "")
+        root_cause = issue.get("root_cause", "")
+        resolution = issue.get("resolution", "")
+        prevention = issue.get("prevention", "")
+        body = f"Title:{title}\nDescription: {description}\nRoot Cause: {root_cause}\nResolution: {resolution}\n"
 
-#         # Create a document with metadata including all fields
-#         doc = Document(
-#             page_content=body,
-#             metadata={
-#                 "id": id,
-#                 "title": title,
-#                 "status": status,
-#                 "priority": priority,
-#                 "description": description,
-#                 "root_cause": root_cause,
-#                 "resolution": resolution,
-#                 "prevention": prevention,
-#             },
-#         )
-#         documents.append(doc)
+        # Create a document with metadata including all fields
+        doc = Document(
+            page_content=body,
+            metadata={
+                "id": id,
+                "title": title,
+                "status": status,
+                "priority": priority,
+                "description": description,
+                "root_cause": root_cause,
+                "resolution": resolution,
+                "prevention": prevention,
+            },
+        )
+        documents.append(doc)
 
-#     # Initialize Chroma vector store
-#     vector_store = Chroma(
-#         collection_name=collection_name,
-#         embedding_function=embeddings,
-#         persist_directory=persist_directory,
-#     )
+    # Initialize Chroma vector store
+    vector_store = Chroma(
+        collection_name=collection_name,
+        embedding_function=embeddings,
+        persist_directory=persist_directory,
+    )
 
-#     # Add documents to the vector store
-#     vector_store.add_documents(documents)
-#     vector_store.persist()
+    # Add documents to the vector store
+    vector_store.add_documents(documents)
+    vector_store.persist()
 
-#     print("Vector store successfully created.")
-#     return vector_store
+    print("Vector store successfully created.")
+    return vector_store
 
 
-# def setup(json_file_path):
-#     # Generate Chroma vector store
-#     vector_store = generate_chroma_vector_store(
-#         json_file_path=json_file_path,
-#         collection_name="issues_data",
-#         persist_directory="data/chroma",
-#     )
-#     return vector_store
+def setup(json_file_path):
+    # Generate Chroma vector store
+    global vector_store
+    vector_store = generate_chroma_vector_store(
+        json_file_path=json_file_path,
+        collection_name="issues_data",
+        persist_directory="data/chroma",
+    )
+    return vector_store
+
 
 
 def get_context_chain(vector_store):
@@ -199,12 +202,6 @@ def summarize_root_causes(user_input):
         LLM, prompt, document_variable_name="input_documents"
     )
     root_causes = [Document(page_content=text) for text in root_causes]
-
-    # Ensure the input is not empty
-    # summary = summary_chain.invoke({"input_documents": root_causes}).get(
-    #     "answer", "No summary generated."
-    # )
-
     summary = summary_chain.invoke({"input_documents": root_causes})
 
     return summary
@@ -221,6 +218,35 @@ def summarize_root_causes(user_input):
 #         response, chat_history = get_response(user_input, chat_history, vector_store)
 #         print(f"Bot: {response}")
 
+def delteChromaDB():
+    db_path = "data/chroma"
+    
+    # Use PersistentClient for persistent storage
+    client = chromadb.PersistentClient(path=db_path)
+
+    # List collection names and delete each one properly
+    for collection in client.list_collections():
+        client.delete_collection(collection)  # Ensure correct deletion
+
+def leverageEnterprise():
+    # Delete the original database by removing the persist directory
+   
+    delteChromaDB()
+
+    # setup("servicenow.json")
+    # Generate the vector store again
+    setup("servicenow.json")
+    # return vector_store
+
+
+
+def revert_to_original():
+    """
+    Reverts the Chroma vector store to its original state using the provided JSON file.
+    """
+    delteChromaDB()
+    json_file_path = "incidents.json"
+    setup(json_file_path)
 
 def add_new_incident(new_incident):
     # Convert the new incident into a Document
@@ -234,38 +260,8 @@ def add_new_incident(new_incident):
     vector_store.persist()
     print("New incident added to the vector store.")
 
-
-# def main():
-
-#     if not os.path.exists(persist_directory) or not os.listdir(persist_directory):
-#         print("Vector store not found. Setting up a new vector store...")
-#         setup("incidents.json")
-
-#     vector_store = Chroma(
-#         collection_name="issues_data",
-#         embedding_function=embeddings,
-#         persist_directory=persist_directory,
-#     )
-#     # Example of adding a new incident to the vector store
-
-#     # ask_similar_incidents(vector_store)
-#     # user_input = input("Enter your query to summarize root causes for incidnest related to your query: ")
-#     # summary = summarize_root_causes(user_input, vector_store)
-#     # print(f"Summary of root causes: {summary}")
-#     add_new_incident(
-#         # vector_store,
-#         {
-#             "id": "INC-1001",
-#             "title": "Intermittent DNS Resolution Failures Affecting Internal Web Applications",
-#             "status": "Resolved",
-#             "priority": "High",
-#             "description": "Multiple users across various departments are reporting intermittent difficulties accessing internal web applications. The issue appears to be sporadic, with some users experiencing consistent failures while others are able to access the applications without any problems.  Initial troubleshooting suggests a potential issue with DNS resolution, as some users report being unable to ping internal servers by hostname, while others can. The issue began approximately 2 hours ago and is impacting productivity.",
-#             "root_cause": "The primary DNS server experienced intermittent network connectivity issues due to a faulty network interface card (NIC). This resulted in inconsistent DNS resolution, causing some clients to fail to resolve internal hostnames. The secondary DNS server was not properly configured to handle failover traffic, exacerbating the issue.",
-#             "resolution": "The faulty NIC on the primary DNS server was replaced.  Following the hardware replacement, network connectivity was restored, and DNS resolution stabilized.  The secondary DNS server was then correctly configured for failover, ensuring redundancy in case of future primary server failures.  All affected users were notified of the resolution and confirmed successful access to the internal web applications. Monitoring of both DNS servers has been implemented to proactively detect future connectivity problems.",
-#             "prevention": "Implemented continuous monitoring of both DNS servers using a network monitoring tool.  Automated alerts will be triggered in case of connectivity issues or performance degradation.  Regular health checks of server hardware, including NICs, will be incorporated into the preventative maintenance schedule. Failover testing will be conducted quarterly to ensure the secondary DNS server can effectively handle traffic in the event of a primary server outage.",
-#         },
-#     )
-
-
 # if __name__ == "__main__":
-#     main()
+#     setup("incidents.json")
+#     delteChromaDB()
+#     time.sleep(5)
+#     setup("servicenow.json")

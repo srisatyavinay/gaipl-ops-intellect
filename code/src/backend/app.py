@@ -1,8 +1,9 @@
 from flask import Flask, request, jsonify, render_template, session, url_for
 from flask_session import Session
-from backend import get_response as bk_get_response, get_similar_incidents as get_similar_incidents, summarize_root_causes as summarize_root_causes
+from backend import get_response as bk_get_response, get_similar_incidents as get_similar_incidents, summarize_root_causes as summarize_root_causes, revert_to_original as revert_to_original, leverageEnterprise as leverageEnterprise
 from flask_cors import CORS
 from health_check import run_health_check, load_mock_data
+import time
 
 app = Flask(__name__)
 app.config['SESSION_TYPE'] = 'filesystem'
@@ -49,6 +50,17 @@ def health_check():
     health_data = load_mock_data("health_logs.json")
     health_report = run_health_check(health_data)
     return jsonify(health_report)
+
+@app.route('/change_enterprise_data', methods=['POST'])
+def change_enterprise_data():
+    data = request.get_json()
+    print(data)
+    if(data["enterprise_data"] == 0):
+        revert_to_original()
+        return jsonify({"message": "Data reverted to original."})
+    else:
+        leverageEnterprise()
+        return jsonify({"message": "Data leveraged from enterprise."})
 
 if __name__ == '__main__':
     app.run(debug=True)
