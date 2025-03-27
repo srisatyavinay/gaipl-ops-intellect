@@ -20,7 +20,7 @@ Our project is a GEN AI-based platform designed to empower support engineers wit
 
 🖼️ [Slides](artifacts/demo/Hackathon_OpsIntellect.pptx)
 
-📹 [Video Demo](#) (if applicable)
+📹 [Video Demo](https://drive.google.com/drive/folders/1jQEjVyxpyIfJp7FiaVDXpYNdv0yr7H8M?usp=sharing)
 
 🖼️ Screenshots:
 
@@ -74,6 +74,11 @@ Our GEN AI-based platform is here to transform how platform support engineers ta
    - Get a snapshot of how the system is doing (mocked for now).  
    - Spot potential issues early and fix them before they become big problems.  
    - Keeps the platform stable and reliable with proactive checks.
+ 
+- **Leverage Enterprise Data**
+   - Allows the platform engineer to switch context using multiple enterprise data sources eg: jira, ServiceNow.
+   - Can get access to multiple sources of information on demand.
+  
 
 ### **How It All Works Together**  
 These features work as a team to make solving problems faster and easier. The AI gives smart suggestions, reports are automated, and data is at your fingertips. This means less manual work and more time to focus on fixing issues.
@@ -88,6 +93,7 @@ These features work as a team to make solving problems faster and easier. The AI
 - To implement summarise RCAs feature, we have pulled the related incidents and asked Gemini to summarise it using a prompt.
 - To perform health check for a component we can get the logs from splunk, check system stats like cpu usage, ram usage etc. from builtin commands. Since we do not have access to it, we have mocked the health check data variables and created the report.
 - To create the chatbot, we have leveraged Gemini and provided it context of the user's query and the current incident being resolved. It will retrieve related incidents from the chroma DB to generate a more precise response.
+- We have also added the functionality to change the context of chatbot based on the need of the support engineer. We basically deleted and recreated the chroma DB to achieve this.
 
 ## 🚧 Challenges We Faced
 
