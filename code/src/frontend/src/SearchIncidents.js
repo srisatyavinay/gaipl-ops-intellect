@@ -58,6 +58,22 @@ export default function SearchIncidents() {
   );
 
   const [enterpriseData, setEnterpriseData] = useState(0);
+
+  // Get enterprise data from local storage else default to 0
+  useEffect(() => {
+    const storedEnterpriseData = localStorage.getItem("enterprise_data");
+    if (storedEnterpriseData) {
+      setEnterpriseData(storedEnterpriseData);
+    }
+  }
+  , []);
+  
+  // Set enterprise data in local storage
+  useEffect(() => {
+    localStorage.setItem("enterprise_data", enterpriseData);
+  }, [enterpriseData]);
+  // Loading state for the dropdown
+
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = async (event) => {
