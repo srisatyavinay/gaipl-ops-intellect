@@ -18,6 +18,14 @@ import os
 from cryptEncryptionKey import decrypt_string
 import chromadb
 
+# Uncomment these lines in linux. Chroma requires sqlite3 >= 3.35.0. But python >= 3.10 may not give this package.
+# https://docs.trychroma.com/troubleshooting#sqlite
+# Install pysqlite3 package and use it instead of the built-in sqlite3 module.
+
+# __import__('pysqlite3')
+# import sys
+# sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 persist_directory = "data/chroma"
 
 with open("creds.json") as f:
